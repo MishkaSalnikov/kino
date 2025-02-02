@@ -37,8 +37,17 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
     ];
+
+    if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == 1) { //если юзер с айди 1
+        $menuItems[] = ['label' => 'Фильмы', 'url' => ['/film-catalog/index']];
+        $menuItems[] = ['label' => 'Сеансы', 'url' => ['/film-sessions/index']];
+        $menuItems[] = ['label' => 'Пользователи', 'url' => ['/user/index']];
+    }
+
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = [
+                ['label' => 'Login', 'url' => ['/site/login']],
+        ];
     }     
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
@@ -61,7 +70,7 @@ AppAsset::register($this);
 <main role="main" class="flex-shrink-0">
     <div class="container">
         <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'links' => $this->params['breadcrumbs'] ?? [],
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
