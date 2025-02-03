@@ -7,5 +7,5 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     'user.passwordMinLength' => 8,
     'uploadPath' => Yii::getAlias('@frontend/web/upload/film/'),
-    'uploadPathUrl' => 'https://kino.test/upload/film/', // URL для публичного доступа
+    'uploadPathUrl' => 'http://kino.test/upload/film/', // URL для публичного доступа
 ];

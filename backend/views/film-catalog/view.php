@@ -34,8 +34,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'description',
             'duration',
             'age_restriction',
-            'pict',
+            [
+                'attribute' => 'pict',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::img($model->getImageUrl(), ['style' => 'max-width: 200px;']);
+                },
+            ],
         ],
-    ]) ?>
+    ]);
+    ?>
 
 </div>

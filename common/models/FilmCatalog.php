@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+
 use Yii;
 use yii\web\UploadedFile;
 
@@ -28,6 +29,15 @@ class FilmCatalog extends \yii\db\ActiveRecord
         return 'film_catalog';
     }
 
+
+    public function init() //не пойму почему без этого не работают дефолтные значения.. после генерации через gii работало без инит
+    {
+        parent::init();
+        $this->duration = 90;
+        $this->age_restriction = 18;
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -36,8 +46,10 @@ class FilmCatalog extends \yii\db\ActiveRecord
         return [
             [['title', 'duration', 'age_restriction'], 'required'],
             [['age_restriction'], 'integer', 'min' => 0, 'max' => 100],
+            [['age_restriction'], 'default', 'value' => 18],
             [['title'], 'string', 'max' => 255],
             [['duration'], 'integer', 'min' => 0, 'max' => 1000],
+            [['duration'], 'default', 'value' => 90],
             [['description'], 'string', 'max' => 2000],
             //[['pict'], 'string', 'max' => 5],
             [
@@ -110,5 +122,30 @@ class FilmCatalog extends \yii\db\ActiveRecord
 
         return false; // Если файл не удалось сохранить
     }
+
+    public function getImageUrl()
+    {
+        $uploadPathUrl = Yii::$app->params['uploadPathUrl'];
+        $uploadPath = Yii::$app->params['uploadPath'];
+        $img = $uploadPathUrl."{$this->id}.{$this->pict}";
+
+        // Проверяем существование файла
+        if (!file_exists($uploadPath . "{$this->id}.{$this->pict}")) {
+            return $uploadPathUrl."no-image.png";
+        }
+
+        return $img;
+    }
+
+    public function deleteImage()
+    {
+        $uploadPath = Yii::$app->params['uploadPath'];
+        $img = $uploadPath . "{$this->id}.{$this->pict}";
+
+        if (file_exists($img)) {
+            unlink($img);
+        }
+    }
+
 
 }

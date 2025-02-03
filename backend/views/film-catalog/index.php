@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'label' => 'Изображение',
                 'value' => function ($model) {
-                    $baseUrl = 'http://kino.test'; // Явно указываем основной домен
+                    $baseUrl = 'http://kino.test'; // Явно указать т.к. админка на другом домене
                     $path = "{$baseUrl}/upload/film/{$model->id}.{$model->pict}";
                     return Html::a(Html::img($path, ['style' => 'width:100px;']), $path, ['target' => '_blank']); //лучше бы, конечно, отдельно генерить превью????
                 },

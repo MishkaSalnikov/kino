@@ -111,7 +111,7 @@ class FilmCatalogController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $oldPict = $model->pict; // Запоминаем старое значение
+        $oldPict = $model->pict; // Запоминаем старое значение чобы не удалять картинку, если не меняли её
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $uploadedFile = UploadedFile::getInstance($model, 'pict');
@@ -141,12 +141,17 @@ class FilmCatalogController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->deleteImage();
+        $model->delete();
 
         return $this->redirect(['index']);
     }
+
+
 
     /**
      * Finds the FilmCatalog model based on its primary key value.
