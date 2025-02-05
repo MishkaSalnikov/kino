@@ -1,52 +1,49 @@
 <?php
+use yii\helpers\Html;
+use common\components\ImageHelper;
 
 /** @var yii\web\View $this */
+/** @var frontend\models\FilmSessions[] $sessions */
 
-$this->title = 'My Yii Application';
+$this->title = 'Расписание сеансов';
 ?>
-<div class="site-index">
-    <div class="p-5 mb-4 bg-transparent rounded-3">
-        <div class="container-fluid py-5 text-center">
-            <h1 class="display-4">Congratulations!</h1>
-            <p class="fs-5 fw-light">You have successfully created your Yii-powered application.</p>
-            <p><a class="btn btn-lg btn-success" href="https://www.yiiframework.com">Get started with Yii</a></p>
-        </div>
-    </div>
 
-    <div class="body-content">
+<h1><?= Html::encode($this->title) ?></h1>
 
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+<div class="film-sessions-list">
+    <?php if (!empty($sessions)): ?>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Фильм</th>
+                <th>Описание</th>
+                <th>Дата и время</th>
+                <th>Цена</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($sessions as $session): ?>
+                <tr>
+                    <td>
+                        <?= Html::encode($session->film->title) ?><br />
+                        <img src="<?= ImageHelper::getImageUrl($session->film->id, $session->film->pict) ?>" width="200">
+                    </td>
+                    <td>
+                        <?= Html::encode($session->film->description) ?>
+                    </td>
+                    <td>
+                        начало <?= Yii::$app->formatter->asDatetime($session->start_datetime, 'php:d.m.Y H:i') ?> <br />
+                        идет до <?= Yii::$app->formatter->asDatetime($session->end_datetime, 'php:d.m.Y H:i') ?>
+                    </td>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
-    </div>
+                    <td>
+                        <?= Yii::$app->formatter->asCurrency($session->price, 'RUB') ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Нет доступных сеансов.</p>
+    <?php endif; ?>
 </div>

@@ -4,7 +4,8 @@ use common\models\FilmCatalog;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
-use yii\grid\GridView;use yii\widgets\ListView;
+use yii\grid\GridView;
+use common\components\ImageHelper;
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -36,9 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'label' => 'Изображение',
                 'value' => function ($model) {
-                    $baseUrl = 'http://kino.test'; // Явно указать т.к. админка на другом домене
-                    $path = "{$baseUrl}/upload/film/{$model->id}.{$model->pict}";
-                    return Html::a(Html::img($path, ['style' => 'width:100px;']), $path, ['target' => '_blank']); //лучше бы, конечно, отдельно генерить превью????
+                    $img = ImageHelper::getImageUrl($model->id, $model->pict);
+                    return Html::img($img, ['style' => 'width:200px;']); //лучше бы, конечно, отдельно генерить превью????
                 },
             ],
             [

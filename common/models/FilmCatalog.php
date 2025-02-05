@@ -55,7 +55,7 @@ class FilmCatalog extends \yii\db\ActiveRecord
             [
                 'pict',
                 'image',
-                'extensions' => 'png, jpg',
+                'extensions' => 'png, jpg, webp',
                 'minWidth' => 300,
                 'maxWidth' => 3000,
                 'minHeight' => 300,
@@ -92,15 +92,6 @@ class FilmCatalog extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[FilmSessions]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFilmSessions()
-    {
-        return $this->hasMany(FilmSessions::class, ['film_id' => 'id']);
-    }
 
 
     public function saveUploadedImage(?UploadedFile $uploadedFile)

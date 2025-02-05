@@ -3,6 +3,11 @@
 /** @var yii\web\View $this */
 
 $this->title = 'My Yii Application';
+
+echo "PHP timezone: " . date_default_timezone_get() . "<br>";
+echo "Yii timezone: " . (Yii::$app->timeZone ?? 'Не установлено') . "<br>";
+echo "Database time: " . Yii::$app->db->createCommand("SELECT NOW()")->queryScalar() . "<br>";
+echo "Current PHP time: " . date('Y-m-d H:i:s') . "<br>";
 ?>
 <div class="site-index">
 
